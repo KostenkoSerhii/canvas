@@ -5,32 +5,43 @@ sayHello();
 $(document).ready(function(){
 
 
-
+	let canvas = document.getElementById('canv'),
+	ctx = canvas.getContext("2d"),
+	game = new Rect("#000", 0, 0, 480, 320),
+	ai = new Rect("#fff", 10, game.height / 2 - 40, 20, 80),
+	player = new Rect("#fff", game.width - 30, game.height / 2 - 40, 20, 80),
+	ball = new Rect("#fff", 40, game.height / 2 - 10, 20, 20);
 
 	function init(){
-		let canvas = document.getElementById('canv'),
-		ctx = canvas.getContext("2d"),
-		game = new Rect("#000", 0, 0, 480, 320),
-		ai = new Rect("#fff", 10, game.height / 2 - 40, 20, 80),
-		player = new Rect("#fff", game.width - 30, game.height / 2 - 40, 20, 80),
-		ball = new Rect("#fff", 40, game.height / 2 - 10, 20, 20);
 
 		canvas.width = 480;
 		canvas.height = 320;
 		ai.scores = 0;
 		player.scores = 0;
-
-		draw({ctx: ctx, game: game});
+		draw();
 
 	};
 
-	function draw(props) {
-		props.game.draw();
-		props.ctx.fillStyle = "#000";
-		props.ctx.fillRect(0, 0, 480, 320);
-	};
+	function draw() {
+		game.draw(ctx);
+		ctx.font = 'bold 128px courier';
+		ctx.textAlign = 'center';
+		ctx.textBaseline = 'top';
+		ctx.fillStyle = "#ccc";
+		ctx.fillText(ai.scores, 100, 0);
+		ctx.fillText(player.scores, game.width-100, 0);
 
-	init();
+		for (var i = 10; i < game.height; i += 45){
+			ctx.fillStyle = "#ccc";
+			ctx.fillRect(game.width/2 - 10, i, 20, 30);
+		};
+
+		ai.draw(ctx); // рисуем левого игрока
+    player.draw(ctx); // правого игрока
+    ball.draw(ctx); // шарик
+  };
+
+  init();
 
 
 

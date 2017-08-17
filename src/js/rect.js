@@ -6,8 +6,8 @@ export default class Rect{
 		this.width = width;
 		this.height = height;
 	}
-	draw(){
+	draw(ctx){
 		ctx.fillStyle = this.color;
 		ctx.fillRect(this.x, this.y, this.width, this.height);
 	}
-}
+};
