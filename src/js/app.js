@@ -1,7 +1,8 @@
 import sayHello from './lib/sayHello.js';
 import Rect from "./rect";
 import game from "./game";
-import  "./circles";
+// import  "./circles";
+import  "./sin-cos";
 sayHello();
 
 $(document).ready(function(){
