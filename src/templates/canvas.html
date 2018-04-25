@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+   <!--begin wrapper-->
+   <div class="wrapper" style="margin: 150px auto; width: 800px">
+    <canvas  id="bla">
+
+    </canvas>
+</div>
+<!--end wrapper-->
+
+
+<script>
+    let t = 0;
+    let canvas = document.getElementById('bla');
+    canvas.width = 800;
+    canvas.height = 600;
+    let ctx = canvas.getContext('2d');
+
+
+    function lerp (start, end, amt){
+      return (1-amt)*start+amt*end;
+  };
+  let factor =4;
+
+  function draw(){
+    t++;
+    ctx.clearRect(0,0,800,600);
+    // let x1 = 10 + 5*Math.sin(t/10);
+    // let x2 = 200 + 50*Math.sin(t/50);
+    // let y1 = 10 + 5*Math.cos(t/10);
+    // let y2 = 200 + 50*Math.cos(t/50);
+    function x1(t){
+        return 100 + 10*Math.cos(Math.PI*t / 50);
+    };
+    function y1(t){
+        return 100 + 10*Math.sin(Math.PI*t / 50);
+    };
+
+    function x2(t){
+        return 300 + 50*Math.cos(2*Math.PI*t / 200);
+    };
+    function y2(t){
+        return 300 + 50*Math.sin(2*Math.PI*t / 200);
+    };
+
+    ctx.beginPath();
+    ctx.arc(x1(t),y1(t), 5, 0, 2 * Math.PI);
+    ctx.arc(x2(t),y2(t), 5, 0, 2 * Math.PI);
+
+    ctx.closePath();
+    ctx.fill();
+    let pointCount = 400;
+    for (let i = 0; i < pointCount; i++) {
+        let tt = i/pointCount;
+        // let xx1 = 10 + 5*Math.sin((t - factor*tt )/10);
+        // let yy1 = 10 + 5*Math.cos((t - factor*tt )/10);
+        let x = lerp(x1(t - factor*tt* 150), x2(t), tt);
+        let y = lerp(y1(t - factor*tt* 150), y2(t), tt);
+          // let x = ((i + 50*Math.sin(t/i)) + (10 + 5*Math.sin(t/10))) / 2;
+          // let y = ((i + 50*Math.cos(t/i)) + (10 + 5*Math.cos(t/10))) / 2;
+        //  let x = ((i + 50*Math.sin(t/i)) + (10 + 5*Math.sin(t/10))) / 2 + i ;
+        // let y = ((i + 50*Math.cos(t/i)) + (10 + 5*Math.cos(t/10))) / 2 + i ;
+
+
+        // let x = ((200 + 50*Math.sin(t/200)) + (10 + 5*Math.sin(t/10)) ) / i;
+        // let y = ((200 + 50*Math.cos(t/200)) + (10 + 5*Math.cos(t/10)) ) / i;
+
+        ctx.beginPath(); 
+        ctx.fillRect(x, y,1,1)
+        ctx.closePath();
+
+    }
+    window.requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>
