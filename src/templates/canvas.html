@@ -75,8 +75,8 @@ function draw(){
       let tt = j/pointCount;
       let colorIndex = Math.round(colorStep + j /2 );
       ctx.fillStyle=`rgb(${colorIndex},0,${colorIndex})`;
-      let x = lerp(x2(dotsStartPosArr[i].x, t - (factor + i*i)*tt* 150, t), x1(t), tt);
-      let y = lerp(y2(dotsStartPosArr[i].y, t - (factor + i*i)*tt* 150, t), y1(t), tt);
+      let x = lerp(x2(dotsStartPosArr[i].x, t - (factor + i)*tt* 150, t), x1(t), tt);
+      let y = lerp(y2(dotsStartPosArr[i].y, t - (factor + i)*tt* 150, t), y1(t), tt);
 
 
       ctx.beginPath(); 
