@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+  </head>
+
+  <body>
+    <!--begin wrapper-->
+    <div class="wrapper" style="margin: 50px auto; width: 800px"> <canvas id="bla">
+
+  </canvas> </div>
+    <script>
+      let t = 0;
+      let canvas = document.getElementById('bla');
+      canvas.width = 800;
+      canvas.height = 600;
+      let ctx = canvas.getContext('2d');
+      let factor = 2;
+      let pointCount = 600;
+      let colorStep = Math.floor(255 / pointCount);
+      let color = 0;
+
+      function lerp(start, end, amt)
+      {
+        return (1 - amt) * start + amt * end;
+      };
+
+      function x1(t)
+      {
+        // return 100 + 10*Math.cos(Math.PI*t / 50);
+        return 400;
+      };
+
+      function y1(t)
+      {
+        // return 100 + 10*Math.sin(Math.PI*t / 50);
+        return 300;
+      };
+
+      function x2(x, t, innerDelay = 1)
+      {
+        return x + 50 * Math.cos(2 * Math.PI * t / 200);
+      };
+
+      function y2(y, t, innerDelay = 1)
+      {
+        return y + 50 * Math.sin(2 * Math.PI * t / 200);
+      };
+      let dotsStartPosArr = [];
+      for (let i = 0; i < 10; i++)
+      {
+        let x = 400 + 250 * Math.cos(i * 2 * Math.PI / 10);
+        let y = 300 + 250 * Math.sin(i * 2 * Math.PI / 10);
+        dotsStartPosArr.push(
+        {
+          x,
+          y
+        })
+      };
+
+      function draw()
+      {
+        t++;
+        ctx.clearRect(0, 0, 800, 600);
+        for (let i = 0; i < dotsStartPosArr.length; i++)
+        {
+          ctx.beginPath();
+          ctx.fillStyle = `rgb(0,0,0)`;
+          ctx.arc(x2(dotsStartPosArr[i].x, t), y2(dotsStartPosArr[i].y, t), 5, 0, 2 * Math.PI);
+          ctx.closePath();
+          ctx.fill();
+          for (let j = 0; j < pointCount; j++)
+          {
+            let tt = j / pointCount;
+            let colorIndex = Math.round(colorStep + j / 2);
+            ctx.fillStyle = `rgb(${colorIndex},0,${colorIndex})`;
+            let x = lerp(x2(dotsStartPosArr[i].x, t - (factor + i * i) * tt * 150, t), x1(t), tt);
+            let y = lerp(y2(dotsStartPosArr[i].y, t - (factor + i * i) * tt * 150, t), y1(t), tt);
+            ctx.beginPath();
+            ctx.fillRect(x, y, 1, 1)
+            ctx.closePath();
+          };
+          //
+        };
+        window.requestAnimationFrame(draw);
+      }
+      draw();
+
+    </script>
+  </body>
+
+</html>

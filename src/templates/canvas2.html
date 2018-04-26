@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+ <!--begin wrapper-->
+ <div class="wrapper" style="margin: 50px auto; width: 800px">
+  <canvas  id="bla">
+
+  </canvas>
+</div>
+
+
+<script>
+  let t = 0;
+  let canvas = document.getElementById('bla');
+  canvas.width = 800;
+  canvas.height = 600;
+  let ctx = canvas.getContext('2d');
+
+
+
+  let factor = 3;
+  let pointCount = 600;
+  let colorStep = Math.floor(255/pointCount);
+  let color = 0;
+
+
+  function lerp (start, end, amt){
+    return (1-amt)*start+amt*end;
+  };
+
+
+
+  function x1(t){
+ // return 100 + 10*Math.cos(Math.PI*t / 50);
+ return 400;
+};
+function y1(t){
+  // return 100 + 10*Math.sin(Math.PI*t / 50);
+  return 300;
+};
+function x2(t){
+ return 250 + 50*Math.cos(2*Math.PI*t / 200);
+};
+function y2(t){
+  return 250 + 50*Math.sin(2*Math.PI*t / 200);
+};
+
+
+
+
+
+function draw(){
+
+  t++;
+  ctx.clearRect(0,0,800,600);
+
+
+  ctx.beginPath();
+  ctx.fillStyle=`rgb(0,0,0)`;
+  ctx.arc(x2(t),y2(t), 5, 0, 2 * Math.PI);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.fillStyle=`rgb(255,0,255)`;
+  ctx.arc(x1(t),y1(t), 5, 0, 2 * Math.PI);
+  ctx.closePath();
+  ctx.fill();
+  
+for (let i = 0; i < 10; i++) {
+  ctx.beginPath();
+  ctx.fillStyle=`rgb(255,0,255)`;
+  ctx.arc(400 + 250*Math.cos(i*2*Math.PI/10),300 + 250*Math.sin(i*2*Math.PI/10), 1, 0, 2 * Math.PI);
+  ctx.closePath();
+  ctx.fill();
+}
+
+
+
+  for (let i = 0; i < pointCount; i++) {
+    let tt = i/pointCount;
+  // let prevColorIndex = 0;
+  let colorIndex = Math.round(colorStep + i /2 );
+  ctx.fillStyle=`rgb(${colorIndex},0,${colorIndex})`;
+  // color +=  colorStep;
+  // ctx.fillStyle=`rgb(${color},${color},${color})`;
+
+  let x = lerp(x2(t - factor*tt* 150), x1(t), tt);
+  let y = lerp(y2(t - factor*tt* 150), y1(t), tt);
+
+
+  ctx.beginPath(); 
+  ctx.fillRect(x, y,1,1)
+  ctx.closePath();
+
+};
+
+window.requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>
